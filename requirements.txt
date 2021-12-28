@@ -1,0 +1,6 @@
+Jinja2==3.0.3
+MarkupSafe==2.0.1
+nmigen==0.2
+git+git://github.com/cyber-murmel/nmigen-boards.git@a936b6c#egg=nmigen-boards
+pyvcd==0.1.7
+six==1.16.0
