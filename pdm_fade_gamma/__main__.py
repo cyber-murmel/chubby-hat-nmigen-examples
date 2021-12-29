@@ -1,6 +1,7 @@
 import argparse
-from .gamma_pdm import PDMDriver
+from .gamma_pdm import PDMDriver, Top
 from nmigen.sim import Simulator
+from nmigen_boards.chubbyhat_v0_1 import ChubbyHat_V01Platform
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
