@@ -26,18 +26,22 @@ class Top(Elaboratable):
         self.pdm_g = PDMDriver()
         self.cnt = PDMCounter(gamma=gamma)
 
-    def elaborate(self, platform):
-        ledg_n = platform.request("led")
+    @property
+    def ports(self):
+        return self.pdm_g.ports
 
+    def elaborate(self, platform):
         m = Module()
 
         m.submodules.pdm_g = self.pdm_g
         m.submodules.cnt = self.cnt
 
-        m.d.comb += [
-            self.pdm_g.pdm_in.eq(self.cnt.pdm_level2),
-            ledg_n.eq(self.pdm_g.pdm_out)
-        ]
+        if(platform):
+            ledg_n = platform.request("led")
+            m.d.comb += [
+                self.pdm_g.pdm_in.eq(self.cnt.pdm_level2),
+                ledg_n.eq(self.pdm_g.pdm_out)
+            ]
 
         return m
 
@@ -76,6 +80,10 @@ class PDMDriver(Elaboratable):
         self.pdm_out = Signal(1)
         self.pdm_in = Signal(in_width)
         self.in_width = in_width
+
+    @property
+    def ports(self):
+        return self.pdm_in, self.pdm_out
 
     def elaborate(self, _platform):
         m = Module()
