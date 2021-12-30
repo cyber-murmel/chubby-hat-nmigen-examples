@@ -36,8 +36,8 @@ class Blinker(Elaboratable):
     def elaborate(self, platform):
         m = Module()
 
-        # Formal Verification
-        if not platform:
+        # Formal Definition Of Behavior
+        if "formal" == platform:
             m.d.comb += [
                 # assert counter stays in range
                 Assert(self.counter <= self.half_period),
@@ -66,7 +66,7 @@ class Blinker(Elaboratable):
                         Cover(self.blink_out == 1),
                         Cover(self.blink_out == 0),
                     ]
-        # Behaviour
+        # Behavior
         with m.If(self.counter == 0):
             m.d.sync += [
                 self.blink_out.eq(~self.blink_out),
