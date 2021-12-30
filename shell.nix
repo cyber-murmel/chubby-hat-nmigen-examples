@@ -19,7 +19,10 @@ let
 in
 mkShell {
   buildInputs = [
-    yosys nextpnr trellis openfpgaloader gtkwave
     python-with-my-packages
+    yosys
+    nextpnr trellis openfpgaloader
+    gtkwave
+    symbiyosys boolector
   ];
 }

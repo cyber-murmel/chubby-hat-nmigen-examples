@@ -1,4 +1,5 @@
 from nmigen import *
+from nmigen.asserts import *
 
 class Top(Elaboratable):
     def __init__(self, clk_frequency, period_s):
@@ -26,16 +27,50 @@ class Blinker(Elaboratable):
     def __init__(self, period=2):
         self.half_period = int(period / 2) - 1 # one extra cycle is need for reloading the value
         self.blink_out = Signal(1)
+        self.counter = Signal(range(self.half_period + 1))
 
     @property
     def ports(self):
-        return (self.blink_out, )
+        return (self.blink_out, self.counter, )
 
-    def elaborate(self, _platform):
+    def elaborate(self, platform):
         m = Module()
 
-        self.counter = Signal(range(self.half_period + 1))
-
+        # Formal Verification
+        if not platform:
+            m.d.comb += [
+                # assert counter stays in range
+                Assert(self.counter <= self.half_period),
+                # cover being on and off
+                Cover(self.blink_out == 1),
+                Cover(self.blink_out == 0),
+            ]
+            # ignore the first cycle
+            with m.If(~Past(ResetSignal())):
+                with m.If(Past(self.counter) == 0):
+                    m.d.sync += [
+                        # assert counter gets reset
+                        Assert(self.counter == self.half_period),
+                    ]
+                # when the counter has reset
+                with m.If((self.counter == self.half_period)):
+                    m.d.comb += [
+                        # assert that the LED has fliped
+                        Assert(self.blink_out != Past(self.blink_out)),
+                        # cover turning on and off
+                        Cover(self.blink_out == 1),
+                        Cover(self.blink_out == 0),
+                    ]
+                with m.Else():
+                    m.d.comb += [
+                        # assert that counter is counting and LED keeps state
+                        Assert(self.counter == Past(self.counter)-1),
+                        Assert(self.blink_out == Past(self.blink_out)),
+                        # cover being on and off
+                        Cover(self.blink_out == 1),
+                        Cover(self.blink_out == 0),
+                    ]
+        # Behaviour
         with m.If(self.counter == 0):
             m.d.sync += [
                 self.blink_out.eq(~self.blink_out),

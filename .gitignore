@@ -132,3 +132,8 @@ dmypy.json
 build/
 *.vcd
 *.gtkw
+
+# SymbiYosys
+*_cover/
+*_bmc/
+*_prove/
