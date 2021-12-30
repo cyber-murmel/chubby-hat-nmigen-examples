@@ -23,6 +23,6 @@ mkShell {
     yosys
     nextpnr trellis openfpgaloader
     gtkwave
-    symbiyosys boolector
+    symbiyosys boolector yices
   ];
 }
