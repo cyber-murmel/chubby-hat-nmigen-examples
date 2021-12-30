@@ -58,8 +58,8 @@ python -m unittest blink
 ```
 
 ### Programming
-To write a synthesized module to the FPGA, call the module without any argument.
+To write a synthesized module to the FPGA, call the module without any command.
 
 ```bash
-python -m unittest blink
+python -m blink
 ```
