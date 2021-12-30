@@ -44,6 +44,8 @@ python -m blink simulate --vcd-file sim.vcd --gtkw-file sim.gtkw -p 0.00000004 -
 gtkwave sim.gtkw
 ```
 
+![](https://raw.githubusercontent.com/cyber-murmel/chubby-hat-nmigen-examples/assets/blink-sim.png)
+
 ### Unit Tests and Formal Verification
 We use nMigens `FHDLTestCase` class which is based on Python unit tests.
 Some modules implement a formal description of their behaviour, which can be verified.
