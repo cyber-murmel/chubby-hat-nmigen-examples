@@ -36,7 +36,7 @@ class Blinker(Elaboratable):
     def elaborate(self, platform):
         m = Module()
 
-        # Formal Definition Of Behavior
+        # Formal Description Of Behavior
         if "formal" == platform:
             m.d.comb += [
                 # assert counter stays in range
@@ -66,7 +66,8 @@ class Blinker(Elaboratable):
                         Cover(self.blink_out == 1),
                         Cover(self.blink_out == 0),
                     ]
-        # Behavior
+
+        # Definition of Behavior
         with m.If(self.counter == 0):
             m.d.sync += [
                 self.blink_out.eq(~self.blink_out),
