@@ -23,16 +23,16 @@ The directories in this repository are executable python modules. They can be ru
 Add `-h` to get a helpt text printed.
 ```bash
 $ python -m pdm_fade_gamma -h
-usage: __main__.py [-h] [-s] [-g G]
+usage: __main__.py [-h] [-g G] {generate,simulate} ...
+
+positional arguments:
+  {generate,simulate}
+    generate           generate RTLIL, Verilog or CXXRTL from the design
+    simulate           simulate the design
 
 optional arguments:
-  -h, --help  show this help message and exit
-  -s          Simulate PDMDriver (for debugging).
-  -g G        Gamma exponent (default 2.2)
-
-$ python -m pdm_fade_gamma -s
-
-$ gtkwave drv.gtkw
+  -h, --help           show this help message and exit
+  -g G                 Gamma exponent (default 2.2)
 ```
 
 ### Simulation
