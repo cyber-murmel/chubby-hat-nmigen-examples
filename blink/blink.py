@@ -47,15 +47,11 @@ class Blinker(Elaboratable):
             ]
             # ignore the first cycle
             with m.If(~Past(ResetSignal())):
+                # counter reaches 0
                 with m.If(Past(self.counter) == 0):
                     m.d.sync += [
-                        # assert counter gets reset
+                        # assert counter gets reset and LED flips
                         Assert(self.counter == self.half_period),
-                    ]
-                # when the counter has reset
-                with m.If((self.counter == self.half_period)):
-                    m.d.comb += [
-                        # assert that the LED has fliped
                         Assert(self.blink_out != Past(self.blink_out)),
                         # cover turning on and off
                         Cover(self.blink_out == 1),
