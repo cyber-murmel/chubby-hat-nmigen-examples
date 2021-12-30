@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/cyber-murmel/chubby-hat-nmigen-examples/assets/banner.png)
+
 # Chubby Hat [nMigen](https://github.com/m-labs/nmigen) Examples
 
 ## Setup
