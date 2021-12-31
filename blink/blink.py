@@ -59,7 +59,7 @@ class Blinker(Elaboratable):
             with m.If(ticks > 2 * self.half_period):
                 # check that blink frequency is correct
                 m.d.comb += [
-                    Assert(self.blink_out == ~Past(self.blink_out, self.half_period)),
+                    Assert(self.blink_out != Past(self.blink_out, self.half_period)),
                     Assert(
                         self.blink_out == Past(self.blink_out, 2 * self.half_period)
                     ),
