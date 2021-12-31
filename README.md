@@ -42,7 +42,7 @@ To get a time scale that is equivalent to the Colorlight, set the clock period t
 You can view the file with GTKWave
 
 ```bash
-python -m blink simulate --vcd-file sim.vcd --gtkw-file sim.gtkw -p 0.00000004 -c 100
+python -m blink --blink-freq 2500000 simulate --vcd-file sim.vcd --gtkw-file sim.gtkw -p 0.00000004 -c 100
 gtkwave sim.gtkw
 ```
 
