@@ -70,7 +70,7 @@ class Blinker(Elaboratable):
 
                 # counter reaches 0
                 with m.If(Past(self.counter) == 0):
-                    m.d.sync += [
+                    m.d.comb += [
                         # assert counter gets reset and LED flips
                         Assert(self.counter == self.half_period - 1),
                         Assert(self.blink_out != Past(self.blink_out)),
