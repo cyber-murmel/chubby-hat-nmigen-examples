@@ -47,16 +47,13 @@ class Blinker(Elaboratable):
                 ticks.eq(ticks + 1),
             ]
 
-            def cover_on_and_off():
-                return [
-                    Cover(self.blink_out == 1),
-                    Cover(self.blink_out == 0),
-                ]
-
             m.d.comb += [
                 # assert counter stays in range
-                Assert(self.counter <= self.half_period),
-            ] + cover_on_and_off()
+                Assert(self.counter < self.half_period),
+
+                Cover(self.blink_out == 1),
+                Cover(self.blink_out == 0),
+            ]
 
             # let run for one blink cycle
             with m.If(ticks > 2 * self.half_period):
@@ -66,7 +63,7 @@ class Blinker(Elaboratable):
                     Assert(
                         self.blink_out == Past(self.blink_out, 2 * self.half_period)
                     ),
-                ] + cover_on_and_off()
+                ]
 
                 # counter reaches 0
                 with m.If(Past(self.counter) == 0):
@@ -74,13 +71,13 @@ class Blinker(Elaboratable):
                         # assert counter gets reset and LED flips
                         Assert(self.counter == self.half_period - 1),
                         Assert(self.blink_out != Past(self.blink_out)),
-                    ] + cover_on_and_off()
+                    ]
                 with m.Else():
                     m.d.comb += [
                         # assert that counter is counting and LED keeps state
                         Assert(self.counter == Past(self.counter) - 1),
                         Assert(self.blink_out == Past(self.blink_out)),
-                    ] + cover_on_and_off()
+                    ]
 
         # Definition of Behavior
         with m.If(self.counter == 0):
