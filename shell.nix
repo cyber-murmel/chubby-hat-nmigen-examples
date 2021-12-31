@@ -14,6 +14,7 @@ let
   my-python-packages = python-packages: with python-packages; [
     nmigen
     nmigen-boards-git
+    black
   ];
   python-with-my-packages = python3.withPackages my-python-packages;
 in
